@@ -2196,12 +2196,24 @@
         <div class="article-footer">
             <p><em>Classifica realizzata con dati ISTAT, OMI, Meteo.it e la sana irriverenza di chi il Sud lo vive, non lo racconta da Citylife.</em></p>
 
-            <!-- Like Counter -->
-            <div class="like-counter">
-                <button class="like-btn" id="likeBtn" aria-label="Like this article">❤️</button>
-                <div>
-                    <div class="like-count" id="likeCount">0</div>
-                    <div class="like-label">Likes</div>
+            <!-- Stats Counters -->
+            <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                <!-- View Counter -->
+                <div class="like-counter">
+                    <div style="font-size: 2.5em;">👁️</div>
+                    <div>
+                        <div class="like-count" id="viewCount">0</div>
+                        <div class="like-label">Visualizzazioni</div>
+                    </div>
+                </div>
+
+                <!-- Like Counter -->
+                <div class="like-counter">
+                    <button class="like-btn" id="likeBtn" aria-label="Like this article">❤️</button>
+                    <div>
+                        <div class="like-count" id="likeCount">0</div>
+                        <div class="like-label">Likes</div>
+                    </div>
                 </div>
             </div>
 
@@ -2323,6 +2335,38 @@
                 }
             });
         });
+
+        // View Counter functionality
+        const viewCountEl = document.getElementById('viewCount');
+        const VIEWS_KEY = 'tarantoVsMilano_views';
+        const VIEWED_KEY = 'tarantoVsMilano_hasViewed';
+
+        // Check if this is a new visit
+        const hasViewed = sessionStorage.getItem(VIEWED_KEY);
+
+        if (!hasViewed) {
+            // Increment view count
+            let viewCount = parseInt(localStorage.getItem(VIEWS_KEY)) || 0;
+            viewCount++;
+            localStorage.setItem(VIEWS_KEY, viewCount);
+            sessionStorage.setItem(VIEWED_KEY, 'true');
+        }
+
+        // Load and display view count with animation
+        let viewCount = parseInt(localStorage.getItem(VIEWS_KEY)) || 0;
+
+        // Animate the counter
+        let currentView = 0;
+        const viewIncrement = viewCount / 50;
+        const viewCounter = setInterval(() => {
+            currentView += viewIncrement;
+            if (currentView >= viewCount) {
+                viewCountEl.textContent = viewCount;
+                clearInterval(viewCounter);
+            } else {
+                viewCountEl.textContent = Math.floor(currentView);
+            }
+        }, 30);
 
         // Like Counter functionality
         const likeBtn = document.getElementById('likeBtn');
