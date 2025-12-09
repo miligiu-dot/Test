@@ -14,24 +14,30 @@
         }
 
         :root {
-            --primary-color: #d32f2f;
+            --primary-color: #e63946;
+            --primary-gradient: linear-gradient(135deg, #f72585 0%, #e63946 50%, #d62828 100%);
             --secondary-color: #1976d2;
-            --success-color: #388e3c;
-            --warning-color: #f57c00;
+            --secondary-gradient: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            --success-color: #06d6a0;
+            --success-gradient: linear-gradient(135deg, #06ffa5 0%, #06d6a0 100%);
+            --warning-color: #ff6b35;
             --danger-color: #c62828;
-            --dark-bg: #1a1a1a;
+            --dark-bg: #0d1117;
             --light-bg: #f8f9fa;
-            --text-dark: #212529;
+            --text-dark: #0d1117;
             --text-light: #6c757d;
             --border-color: #dee2e6;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
         }
 
         body {
             font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.7;
             color: var(--text-dark);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             background-attachment: fixed;
+            overflow-x: hidden;
         }
 
         /* Top Bar */
@@ -144,10 +150,13 @@
         .article-container {
             max-width: 1000px;
             margin: 40px auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 50px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         /* Article Header */
@@ -508,13 +517,31 @@
 
         /* Conclusion Box */
         .conclusion-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f72585 0%, #7209b7 50%, #3a0ca3 100%);
             color: white;
-            padding: 40px;
+            padding: 50px;
             margin: 50px 0;
-            border-radius: 12px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 50px rgba(119, 9, 183, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .conclusion-box h2 {
@@ -542,32 +569,59 @@
         }
 
         .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 45px rgba(31, 38, 135, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-card .number {
-            font-size: 2.5em;
+            font-size: 3.5em;
             font-weight: 900;
-            color: var(--primary-color);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-family: 'Playfair Display', serif;
+            text-shadow: 0 0 30px rgba(231, 76, 60, 0.3);
         }
 
         .stat-card .label {
             font-size: 0.9em;
-            color: var(--text-light);
+            color: var(--text-dark);
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
+            letter-spacing: 2px;
+            margin-top: 15px;
         }
 
         /* Footer */
@@ -620,6 +674,58 @@
             }
         }
 
+        /* Progress Bars for KPIs */
+        .kpi-progress-container {
+            margin: 8px 0;
+        }
+
+        .kpi-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .kpi-progress-fill {
+            height: 100%;
+            background: var(--success-gradient);
+            border-radius: 10px;
+            transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .kpi-progress-fill.low {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .kpi-progress-fill.medium {
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a3c 100%);
+        }
+
+        .kpi-progress-fill.high {
+            background: var(--success-gradient);
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -632,8 +738,41 @@
             }
         }
 
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .article-container {
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Emoji */
@@ -642,6 +781,21 @@
             font-size: 1.3em;
             display: inline-block;
             margin-right: 8px;
+        }
+
+        /* Enhanced Typography */
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em !important;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.8em !important;
         }
     </style>
 </head>
@@ -714,7 +868,7 @@
                     <div class="label">Città Analizzate</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">4</div>
+                    <div class="number">8</div>
                     <div class="label">Indicatori KPI</div>
                 </div>
                 <div class="stat-card">
@@ -722,27 +876,167 @@
                     <div class="label">Giorni di Sole (Taranto)</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">12.4</div>
+                    <div class="number">9.8</div>
                     <div class="label">Punteggio Milano</div>
                 </div>
             </div>
 
-            <h2><span class="emoji">🎯</span> I Quattro Pilastri della Felicità Reale</h2>
+            <h2><span class="emoji">🎯</span> Gli Otto Pilastri della Vera Qualità della Vita</h2>
 
-            <p>Abbiamo scelto quattro indicatori che – sorpresa! – misurano la <strong>vita</strong>, non la <strong>produttività</strong>:</p>
+            <p>Abbiamo scelto otto indicatori che – sorpresa! – misurano la <strong>vita</strong>, non la <strong>produttività aziendale</strong>:</p>
 
             <div class="highlight-box info">
-                <h3><span class="emoji">🏖️</span> Vicinanza al Mare (30%)</h3>
-                <p>Perché il mare non è una vacanza, è una terapia quotidiana. Quando esci dall'ufficio e in 5 minuti sei a mollo, la vita cambia.</p>
+                <h3><span class="emoji">🏖️</span> Prossimità al Mare (18%)</h3>
+                <p>Il mare non è una vacanza, è terapia quotidiana. Quando esci dall'ufficio e in 5 minuti sei a mollo, la vita cambia. Milano? 140 km di autostrada.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>100/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="100"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>0/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="0"></div>
+                    </div>
+                </div>
 
-                <h3><span class="emoji">👨‍👩‍👧‍👦</span> Restare Vicino alla Famiglia (25%)</h3>
-                <p>La possibilità di NON dover prendere un aereo per abbracciare tua madre. Di avere i nonni che ti tengono i figli invece di una babysitter a 15 euro l'ora.</p>
+                <h3 style="margin-top: 25px;"><span class="emoji">💰</span> Costo della Vita (15%)</h3>
+                <p>Quanto ti costa <strong>davvero</strong> vivere. Non "investire", non "networking". Affitto, spesa, bollette. Milano = stipendio intero. Taranto = metà stipendio.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>95/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="95"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>5/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="5"></div>
+                    </div>
+                </div>
 
-                <h3><span class="emoji">☀️</span> Giorni di Sole (25%)</h3>
-                <p>Perché la vitamina D non si compra al supermercato bio. E perché 8 mesi di grigio non è "vivere", è "resistere".</p>
+                <h3 style="margin-top: 25px;"><span class="emoji">⏰</span> Work-Life Balance (15%)</h3>
+                <p>Ore lavorate, tempo nel traffico, stress quotidiano. A Taranto lavori 38h/settimana e pranzi a casa. A Milano 50h + 2h pendolarismo = cena alle 22.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>92/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="92"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>12/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="12"></div>
+                    </div>
+                </div>
 
-                <h3><span class="emoji">💰</span> Costo della Vita Reale (20%)</h3>
-                <p>Quanto ti costa <strong>davvero</strong> vivere. Non "investire", non "posizionarti sul mercato". Quanto paghi per un tetto, cibo, e serenità.</p>
+                <h3 style="margin-top: 25px;"><span class="emoji">👨‍👩‍👧‍👦</span> Vicinanza Famiglia (12%)</h3>
+                <p>Non dover prendere un aereo per abbracciare tua madre. Avere i nonni che tengono i figli invece di babysitter a 15€/ora. Al Sud = normale. Al Nord = lusso.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>94/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="94"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>10/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="10"></div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;"><span class="emoji">☀️</span> Giorni di Sole (12%)</h3>
+                <p>La vitamina D non si compra al supermercato bio. Taranto: 320 giorni. Milano: 135 giorni (gli altri 230 sono 50 sfumature di grigio).</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>96/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="96"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>35/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="35"></div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;"><span class="emoji">🎭</span> Tradizioni e Cultura Locale (10%)</h3>
+                <p>Feste patronali vere, sagre dove mangi davvero, dialetto vivo. Sud = identità. Milano = Starbucks identico a Seattle.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>91/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="91"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>15/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="15"></div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;"><span class="emoji">😰</span> Stress Quotidiano (10%)</h3>
+                <p>Code, metro affollata, tempi di attesa, ritmi frenetici. Taranto = passeggiata sul lungomare. Milano = corsa contro il tempo perpetua.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>90/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="90"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>8/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="8"></div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 25px;"><span class="emoji">🧠</span> Salute Mentale (8%)</h3>
+                <p>Depressione, ansia, burnout. Al Sud hai piazza e comunità. Al Nord hai psicologo a 120€/seduta perché nessuno ti conosce.</p>
+                <div class="kpi-progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9em;">
+                        <span><strong>Taranto</strong></span>
+                        <span>88/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill high" data-width="88"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0 5px 0; font-size: 0.9em;">
+                        <span><strong>Milano</strong></span>
+                        <span>6/100</span>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="kpi-progress-fill low" data-width="6"></div>
+                    </div>
+                </div>
             </div>
 
             <h2><span class="emoji">🏆</span> LA CLASSIFICA COMPLETA - Tutte le 110 Città</h2>
@@ -757,101 +1051,145 @@
                             <th>Città</th>
                             <th>Punteggio</th>
                             <th>Mare</th>
-                            <th>Famiglia</th>
-                            <th>Sole</th>
                             <th>Costo</th>
+                            <th>W-L Bal.</th>
+                            <th>Fam.</th>
+                            <th>Sole</th>
+                            <th>Trad.</th>
+                            <th>Stress</th>
+                            <th>Ment.</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="top-position">
                             <td><span class="position-badge first">1</span></td>
                             <td><strong>TARANTO</strong></td>
-                            <td><span class="score-badge">95.2</span></td>
+                            <td><span class="score-badge">93.8</span></td>
                             <td>100</td>
+                            <td>95</td>
                             <td>92</td>
+                            <td>94</td>
                             <td>96</td>
-                            <td>93</td>
+                            <td>91</td>
+                            <td>90</td>
+                            <td>88</td>
                         </tr>
                         <tr>
                             <td><span class="position-badge second">2</span></td>
                             <td>Trapani</td>
-                            <td><span class="score-badge">92.8</span></td>
+                            <td><span class="score-badge">91.5</span></td>
                             <td>98</td>
-                            <td>88</td>
+                            <td>92</td>
+                            <td>89</td>
+                            <td>90</td>
                             <td>95</td>
                             <td>90</td>
+                            <td>88</td>
+                            <td>86</td>
                         </tr>
                         <tr>
                             <td><span class="position-badge third">3</span></td>
                             <td>Reggio Calabria</td>
-                            <td><span class="score-badge">91.5</span></td>
+                            <td><span class="score-badge">90.2</span></td>
                             <td>95</td>
-                            <td>90</td>
-                            <td>94</td>
+                            <td>91</td>
                             <td>88</td>
+                            <td>92</td>
+                            <td>94</td>
+                            <td>89</td>
+                            <td>87</td>
+                            <td>85</td>
                         </tr>
                         <tr>
                             <td>4</td>
                             <td>Lecce</td>
-                            <td><span class="score-badge">90.3</span></td>
+                            <td><span class="score-badge">89.1</span></td>
                             <td>92</td>
                             <td>89</td>
-                            <td>93</td>
                             <td>87</td>
+                            <td>91</td>
+                            <td>93</td>
+                            <td>88</td>
+                            <td>86</td>
+                            <td>84</td>
                         </tr>
                         <tr>
                             <td>5</td>
                             <td>Siracusa</td>
-                            <td><span class="score-badge">89.7</span></td>
+                            <td><span class="score-badge">88.4</span></td>
                             <td>94</td>
+                            <td>88</td>
                             <td>86</td>
+                            <td>88</td>
                             <td>92</td>
-                            <td>86</td>
+                            <td>87</td>
+                            <td>85</td>
+                            <td>83</td>
                         </tr>
                         <tr>
                             <td>6</td>
                             <td>Pescara</td>
-                            <td><span class="score-badge">87.4</span></td>
+                            <td><span class="score-badge">86.3</span></td>
                             <td>88</td>
-                            <td>87</td>
+                            <td>86</td>
+                            <td>84</td>
+                            <td>89</td>
                             <td>85</td>
-                            <td>88</td>
+                            <td>86</td>
+                            <td>84</td>
+                            <td>82</td>
                         </tr>
                         <tr>
                             <td>7</td>
                             <td>Cagliari</td>
-                            <td><span class="score-badge">86.9</span></td>
+                            <td><span class="score-badge">85.7</span></td>
                             <td>90</td>
-                            <td>85</td>
+                            <td>84</td>
+                            <td>83</td>
+                            <td>87</td>
                             <td>91</td>
-                            <td>82</td>
+                            <td>85</td>
+                            <td>83</td>
+                            <td>81</td>
                         </tr>
                         <tr>
                             <td>8</td>
                             <td>Catania</td>
-                            <td><span class="score-badge">85.6</span></td>
+                            <td><span class="score-badge">84.5</span></td>
                             <td>91</td>
-                            <td>83</td>
+                            <td>82</td>
+                            <td>81</td>
+                            <td>85</td>
                             <td>90</td>
+                            <td>84</td>
+                            <td>82</td>
                             <td>80</td>
                         </tr>
                         <tr>
                             <td>9</td>
                             <td>Brindisi</td>
-                            <td><span class="score-badge">84.8</span></td>
+                            <td><span class="score-badge">83.6</span></td>
                             <td>89</td>
-                            <td>84</td>
-                            <td>88</td>
+                            <td>83</td>
                             <td>82</td>
+                            <td>86</td>
+                            <td>88</td>
+                            <td>83</td>
+                            <td>81</td>
+                            <td>79</td>
                         </tr>
                         <tr>
                             <td>10</td>
                             <td>Salerno</td>
-                            <td><span class="score-badge">83.2</span></td>
+                            <td><span class="score-badge">82.1</span></td>
+                            <td>86</td>
+                            <td>81</td>
+                            <td>80</td>
+                            <td>84</td>
                             <td>86</td>
                             <td>82</td>
-                            <td>86</td>
-                            <td>79</td>
+                            <td>80</td>
+                            <td>78</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1023,18 +1361,18 @@
                         <tr class="bottom-position">
                             <td><span class="position-badge last">110</span></td>
                             <td><strong>MILANO</strong></td>
-                            <td><span class="score-badge low">12.4</span></td>
-                            <td><strong>Capitale morale dove morale = portafoglio</strong></td>
+                            <td><span class="score-badge low">9.8</span></td>
+                            <td><strong>Capitale morale = stipendio a 4 cifre + solitudine a 5 stelle</strong></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <h2><span class="emoji">🎖️</span> TARANTO: IL TRIONFO DEL MARE</h2>
+            <h2><span class="emoji">🎖️</span> TARANTO: IL TRIONFO DELLA VITA VERA</h2>
 
             <div class="highlight-box success">
-                <h3>Prima Posizione con 95.2 Punti</h3>
-                <p>Taranto vince. E vince <strong>sonoramente</strong>.</p>
+                <h3>Prima Posizione con 93.8 Punti</h3>
+                <p>Taranto vince. E vince <strong>su tutti e 8 i fronti della felicità</strong>.</p>
             </div>
 
             <p>"Ma come?!" grideranno i soliti noti. "Taranto con l'ILVA? Taranto che nessuno considera?"</p>
@@ -1053,27 +1391,60 @@
 
             <p>Milano? Centotrentacinque. Gli altri 230 giorni sono una sfumatura di grigio che nemmeno Moravia riuscirebbe a rendere interessante.</p>
 
-            <h4><span class="emoji">💰</span> CASA SENZA MUTUO A VITA (93/100)</h4>
+            <h4><span class="emoji">💰</span> COSTO VITA: PAGHI METÀ, VIVI IL DOPPIO (95/100)</h4>
 
             <div class="comparison-box">
                 <h4>Scenario A - Taranto:</h4>
                 <div class="item positive">✓ Appartamento 80mq vista mare: €100.000-150.000</div>
-                <div class="item positive">✓ Mutuo 20 anni: €500-700/mese</div>
-                <div class="item positive">✓ Finisci di pagare a 45 anni con mare sotto casa</div>
+                <div class="item positive">✓ Affitto bilocale: €400/mese</div>
+                <div class="item positive">✓ Spesa settimanale: €60-80</div>
+                <div class="item positive">✓ Cena fuori (2 persone): €30-40</div>
             </div>
 
             <div class="comparison-box">
                 <h4>Scenario B - Milano:</h4>
-                <div class="item negative">✗ Monolocale 35mq periferia: €200.000</div>
-                <div class="item negative">✗ Mutuo 30 anni: €800-1.000/mese</div>
-                <div class="item negative">✗ Finisci a 60 anni sentendo il vicino russare</div>
+                <div class="item negative">✗ Monolocale 35mq periferia: €250.000</div>
+                <div class="item negative">✗ Affitto bilocale: €1.500/mese</div>
+                <div class="item negative">✗ Spesa settimanale: €120-150</div>
+                <div class="item negative">✗ Cena fuori (2 persone): €80-100</div>
             </div>
+
+            <h4><span class="emoji">⏰</span> WORK-LIFE BALANCE: VIVI, NON SOPRAVVIVI (92/100)</h4>
+
+            <div class="comparison-box">
+                <h4>Taranto - La Giornata Tipo:</h4>
+                <div class="item positive">✓ Ore lavorate: 38h/settimana (contratto rispettato)</div>
+                <div class="item positive">✓ Pendolarismo: 10-15 minuti (bici o auto)</div>
+                <div class="item positive">✓ Pranzo: A casa con la famiglia</div>
+                <div class="item positive">✓ Sera: Passeggiata lungomare, cena alle 20, Netflix alle 21</div>
+            </div>
+
+            <div class="comparison-box">
+                <h4>Milano - La Maratona Quotidiana:</h4>
+                <div class="item negative">✗ Ore lavorate: 48-50h/settimana (straordinari "volontari")</div>
+                <div class="item negative">✗ Pendolarismo: 1-2 ore al giorno (metro + cambi)</div>
+                <div class="item negative">✗ Pranzo: Panino alla scrivania (€8-12)</div>
+                <div class="item negative">✗ Sera: Palestra 22:00, cena 23:00, letto 00:30</div>
+            </div>
+
+            <h4><span class="emoji">🎭</span> TRADIZIONI: IDENTITÀ VS GLOBALIZZAZIONE (91/100)</h4>
+            <p>A Taranto hai la <strong>Settimana Santa</strong> con i Riti della Confraternite (patrimonio UNESCO candidato). Hai le sagre vere dove la nonna cucina davvero, non uno chef stellato in versione "street".</p>
+
+            <p>A Milano? Hai il Christmas Market con bratwurst tedeschi a 8 euro e vin brulé industriale. Le "tradizioni" sono importate, sterilizzate, commercializzate.</p>
+
+            <h4><span class="emoji">🧠</span> SALUTE MENTALE: COMUNITÀ VS SOLITUDINE (88/100)</h4>
+
+            <blockquote>
+                A Taranto esci e conosci 5 persone per strada. A Milano esci e incroci 500 sconosciuti che ti guardano lo smartphone.
+            </blockquote>
+
+            <p>La differenza tra vivere in una <strong>comunità</strong> e sopravvivere in una <strong>massa anonima</strong>. Sud = piazza. Nord = psicologo.</p>
 
             <h2><span class="emoji">💀</span> MILANO: L'ULTIMA MERITATA</h2>
 
             <div class="highlight-box warning">
-                <h3>110ª Posizione con 12.4 Punti</h3>
-                <p>Milano chiude la classifica con l'eleganza di un elefante in cristalleria.</p>
+                <h3>110ª Posizione con 9.8 Punti</h3>
+                <p>Milano chiude la classifica perdendo su tutti e 8 i fronti. Non è un caso, è una sentenza.</p>
             </div>
 
             <h4><span class="emoji">🏖️</span> MARE: 0 PUNTI</h4>
@@ -1086,13 +1457,53 @@
                 Il milanese medio sviluppa cecità cromatica: dopo anni di grigio, non ricorda più il blu del cielo.
             </blockquote>
 
-            <h4><span class="emoji">💰</span> COSTO VITA: 8 PUNTI</h4>
+            <h4><span class="emoji">💰</span> COSTO VITA: 5 PUNTI (Stipendio Finisce il 20 del Mese)</h4>
 
             <ul>
-                <li>Bilocale 50mq: €1.500-1.800/mese affitto</li>
-                <li>Comprare: €400.000-500.000 per 50mq periferia</li>
-                <li>Aperitivo: €15-20 per un bicchiere</li>
-                <li>Palestra: €80-100/mese</li>
+                <li>Bilocale 50mq: €1.500-1.800/mese affitto (60% dello stipendio)</li>
+                <li>Comprare: €400.000-500.000 per 50mq periferia (35 anni di mutuo)</li>
+                <li>Aperitivo: €15-20 per un bicchiere (che a Taranto è la cena completa)</li>
+                <li>Palestra: €80-100/mese (a Taranto hai il mare gratis)</li>
+                <li>Spesa: Doppia rispetto a Taranto per gli stessi prodotti</li>
+            </ul>
+
+            <h4><span class="emoji">⏰</span> WORK-LIFE BALANCE: 12 PUNTI (Work Sì, Life No)</h4>
+
+            <blockquote>
+                Il milanese medio lavora 50 ore, passa 10 ore in metro, dorme 6 ore. I restanti 102 minuti al giorno li dedica a "vivere".
+            </blockquote>
+
+            <ul>
+                <li><strong>Straordinari "volontari"</strong>: Se esci alle 18:00 sei quello "poco motivato"</li>
+                <li><strong>Pendolarismo</strong>: 1-2 ore/giorno in metro affollata (più del tempo con i figli)</li>
+                <li><strong>Pausa pranzo</strong>: Panino da 10€ davanti al PC</li>
+                <li><strong>Weekend</strong>: Recupero stanchezza, non tempo libero</li>
+            </ul>
+
+            <h4><span class="emoji">😰</span> STRESS: 8 PUNTI (Ansia come Stile di Vita)</h4>
+
+            <p>Milano è l'unica città dove <strong>"essere sempre di corsa" è un vanto</strong>, non un problema.</p>
+
+            <ul>
+                <li>Metro affollata ogni mattina (e ti spingono)</li>
+                <li>Traffico costante (anche la domenica)</li>
+                <li>Code ovunque (posta, supermercato, semaforo)</li>
+                <li>Ritmo frenetico come "normalità"</li>
+            </ul>
+
+            <h4><span class="emoji">🧠</span> SALUTE MENTALE: 6 PUNTI (Capitale della Solitudine)</h4>
+
+            <p>Milano ha il <strong>più alto tasso di consumo di antidepressivi</strong> d'Italia. Coincidenza?</p>
+
+            <blockquote>
+                In un condominio milanese di 50 appartamenti, conosci il nome di 2 vicini. A Taranto conosci anche i loro nonni, cugini e il cane.
+            </blockquote>
+
+            <ul>
+                <li>Solitudine urbana: circondata da milioni, ma nessuno ti conosce</li>
+                <li>Psicologo: necessità, non lusso (120€/seduta)</li>
+                <li>Burnout: normalità lavorativa</li>
+                <li>Relazioni superficiali: networking ≠ amicizia</li>
             </ul>
 
             <h2><span class="emoji">📊</span> IL CONFRONTO NUMERICO</h2>
@@ -1156,8 +1567,9 @@
             </div>
 
             <div style="text-align: center; margin: 60px 0;">
-                <h2 style="color: var(--primary-color); font-size: 2.5em; font-family: 'Playfair Display', serif;">Taranto, dove il mare batte Milano 95 a 12</h2>
-                <p style="font-size: 1.3em; margin-top: 20px; color: var(--text-light);">E non è nemmeno stata una partita.</p>
+                <h2 style="color: var(--primary-color); font-size: 2.5em; font-family: 'Playfair Display', serif;">Taranto 93.8 - Milano 9.8</h2>
+                <p style="font-size: 1.5em; margin-top: 20px; color: var(--text-dark);"><strong>8 KPI, 8 vittorie del Sud</strong></p>
+                <p style="font-size: 1.3em; margin-top: 15px; color: var(--text-light);">Non è nemmeno stata una partita. È stata una lezione.</p>
             </div>
 
         </div>
@@ -1170,7 +1582,96 @@
         </div>
     </article>
 
+    <script>
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        // Add scroll-reveal class to sections
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('h2, h3, .table-container, .highlight-box, .comparison-box, .conclusion-box');
+            sections.forEach(section => {
+                section.classList.add('scroll-reveal');
+                observer.observe(section);
+            });
+
+            // Animate progress bars
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.kpi-progress-fill');
+                progressBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                });
+            }, 500);
+
+            // Animate stat cards numbers on scroll
+            const statCards = document.querySelectorAll('.stat-card');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const numberEl = entry.target.querySelector('.number');
+                        const finalNumber = numberEl.textContent;
+                        let currentNumber = 0;
+                        const increment = parseFloat(finalNumber) / 50;
+                        const isDecimal = finalNumber.includes('.');
+
+                        const counter = setInterval(() => {
+                            currentNumber += increment;
+                            if (currentNumber >= parseFloat(finalNumber)) {
+                                numberEl.textContent = finalNumber;
+                                clearInterval(counter);
+                            } else {
+                                numberEl.textContent = isDecimal ? currentNumber.toFixed(1) : Math.floor(currentNumber);
+                            }
+                        }, 30);
+
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statCards.forEach(card => statsObserver.observe(card));
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.site-header');
+            if (header) {
+                header.style.transform = `translateY(${scrolled * 0.3}px)`;
+                header.style.opacity = 1 - (scrolled / 500);
+            }
+        });
+
+        // Share buttons functionality
+        const shareButtons = document.querySelectorAll('.share-btn');
+        shareButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const url = window.location.href;
+                const title = 'Classifica Qualità della Vita Italia 2025 - Taranto batte Milano!';
+
+                if (btn.classList.contains('facebook')) {
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                } else if (btn.classList.contains('twitter')) {
+                    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank');
+                } else if (btn.classList.contains('whatsapp')) {
+                    window.open(`https://wa.me/?text=${title} ${url}`, '_blank');
+                } else if (btn.classList.contains('linkedin')) {
+                    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank');
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
-
-
