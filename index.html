@@ -797,6 +797,110 @@
         h2 {
             font-size: 2.8em !important;
         }
+
+        /* Instagram-style Photo Gallery */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        }
+
+        .photo-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 aspect ratio */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .photo-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .photo-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            padding: 20px;
+        }
+
+        .photo-caption .location {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .photo-caption .description {
+            font-size: 0.95em;
+            color: var(--text-dark);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .photo-caption .vibe-tag {
+            display: inline-block;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 5px 5px 0 0;
+            border: 1px solid var(--glass-border);
+        }
+
+        .photo-caption .vibe-tag.green {
+            background: linear-gradient(135deg, #e6f9f0 0%, #ccf2e0 100%);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .photo-caption .vibe-tag.red {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .vs-divider {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin: 50px 0 30px 0;
+            font-family: 'Playfair Display', serif;
+        }
     </style>
 </head>
 <body>
@@ -835,11 +939,11 @@
             <h1 class="article-title">La Classifica Alternativa della Qualità della Vita in Italia 2025</h1>
             <p class="article-subtitle">Quando si smette di misurare la felicità col PIL e si inizia a contare sorrisi, sole e mare: una classifica provocatoria dove Taranto trionfa e Milano perde</p>
             <div class="article-meta">
-                <span class="author">Di Redazione Indipendente</span>
+                <span class="author">Di un tarantino come voi ❤️💙</span>
                 <span class="divider"></span>
                 <span class="date">9 Dicembre 2025</span>
                 <span class="divider"></span>
-                <span class="reading-time">15 min di lettura</span>
+                <span class="reading-time">20 min di lettura</span>
             </div>
         </div>
 
@@ -859,6 +963,7 @@
 
             <div class="highlight-box success">
                 <p><strong>Benvenuti nella classifica alternativa e provocatoria</strong>, dove Taranto è prima e Milano ultima. E prima che gridiate allo scandalo, sappiate che questa è una <strong>visione soggettiva</strong> basata su KPI che misurano la <strong>felicità vera</strong>, non il PIL.</p>
+                <p style="margin-top: 15px; font-size: 1.1em;"><strong>No cap:</strong> questa classifica fa più senso di quelle "ufficiali". Taranto understood the assignment. 💯</p>
             </div>
 
             <!-- Stats Grid -->
@@ -1047,6 +1152,7 @@
                 <h3>La Verità Scomoda per le Metropoli</h3>
                 <p>Se puoi lavorare da remoto per un'azienda milanese guadagnando <strong>€2.000/mese</strong>, perché dovresti vivere a Milano pagando €1.500 di affitto quando puoi vivere a Taranto pagandone €400?</p>
                 <p><strong>Stessa busta paga. Qualità della vita 10 volte superiore.</strong></p>
+                <p style="margin-top: 15px; font-size: 1.1em;">Tell me you didn't do the math without telling me you didn't do the math. 💀</p>
             </div>
 
             <h3><span class="emoji">🏛️</span> Decentramento: L'Opportunità che l'Italia Spreca</h3>
@@ -1075,7 +1181,7 @@
             </div>
 
             <blockquote>
-                Mentre Milano mostra la Galleria Vittorio Emanuele (1877), Taranto custodisce i Tesori degli Ori (VI secolo a.C.). 2.500 anni di differenza.
+                Mentre Milano mostra la Galleria Vittorio Emanuele (1877), Taranto custodisce i Tesori degli Ori (VI secolo a.C.). 2.500 anni di differenza. <strong>Taranto really said "I'm not like other cities" and meant it.</strong> 💅
             </blockquote>
 
             <h3><span class="emoji">🏖️</span> Bandiere Blu e il Salento che Parte da Taranto</h3>
@@ -1091,7 +1197,51 @@
                 <div class="item positive">✓ <strong>Costi accessibili</strong>: Casa al mare a prezzi umani, non da speculazione turistica</div>
             </div>
 
-            <p>La verità? Il turismo di massa va a Lecce perché <strong>Taranto è stata raccontata male</strong> per decenni. Ma chi ci vive sa che il mare tarantino non ha nulla da invidiare a quello leccese. Anzi.</p>
+            <p>La verità? Il turismo di massa va a Lecce perché <strong>Taranto è stata raccontata male</strong> per decenni. Ma chi ci vive sa che il mare tarantino non ha nulla da invidiare a quello leccese. Anzi. <strong>If you know, you know.</strong> 🤫</p>
+
+            <h3><span class="emoji">🦞</span> Il Pesce Fresco: Quando il Lusso È Normalità</h3>
+
+            <p>Parliamo di una cosa che a Milano è "esperienza gourmet" e a Taranto è <strong>pranzo del martedì</strong>.</p>
+
+            <div class="comparison-box">
+                <h4>Scenario Tarantino - La Normalità:</h4>
+                <div class="item positive">✓ <strong>Cozze nere</strong>: Le famose "cozze tarantine" dal Mar Piccolo. Fresche di giornata. €3-4 al kg. Le mangi a casa o al ristorante, non fa differenza</div>
+                <div class="item positive">✓ <strong>Pesce del giorno</strong>: Orata, spigola, polpo pescato stamattina. Il pescivendolo ti dice "questo l'ho tirato su alle 6"</div>
+                <div class="item positive">✓ <strong>Ricci di mare</strong>: Stagione giusta? Li compri freschi e li mangi in spiaggia. Non è Instagram, è vita</div>
+                <div class="item positive">✓ <strong>Crudité</strong>: A Milano paghi €40 per un "plateau de fruits de mer". A Taranto è l'antipasto della domenica dai nonni</div>
+                <div class="item positive">✓ <strong>Ristorante pesce</strong>: Cena completa per 2 persone: €40-50. Pesce freschissimo, porzioni vere, vista mare (a volte)</div>
+            </div>
+
+            <div class="comparison-box">
+                <h4>Scenario Milanese - L'Esperienza "Luxury":</h4>
+                <div class="item negative">✗ <strong>Sushi</strong>: €60 a persona per pesce che ha visto il mare 3 giorni fa (forse)</div>
+                <div class="item negative">✗ <strong>"Crudité di mare"</strong>: €45 per 6 ostriche e 3 gamberetti. Ti senti in Côte d'Azur ma sei in Porta Garibaldi</div>
+                <div class="item negative">✗ <strong>Ristorante pesce</strong>: €80-100 a persona. Ti servono "branzino al sale" con tre fagiolini a lato. Porzione: dieta forzata</div>
+                <div class="item negative">✗ <strong>Freschezza</strong>: "Pescato nell'Atlantico" (quando? Mistero). A Taranto chiedono "Di questa mattina o di ieri?"</div>
+            </div>
+
+            <blockquote>
+                A Taranto, il pesce fresco non è un lusso che ti concedi il sabato sera. È il modo normale di mangiare. <strong>Questo è quello che chiamano "qualità della vita".</strong> 🦐
+            </blockquote>
+
+            <h3><span class="emoji">🚫</span> No Maranza Zone: Autenticità Vera, Zero Pose</h3>
+
+            <p>Ecco una cosa che a Milano non capiscono: <strong>a Taranto non esiste la cultura "maranza"</strong>. Non trovi ragazzini con il borsello Luis Vuitòn fake che fanno i fenomeni in piazza.</p>
+
+            <div class="highlight-box success">
+                <h4>Perché Taranto È Diversa:</h4>
+                <ul style="margin-top: 15px;">
+                    <li><strong>Autenticità</strong>: La gente è vera. Niente pose, niente finzioni. Se ti salutano, è perché ti conoscono davvero o perché sono educati. Non c'è il "faccio finta di essere amico per il networking"</li>
+                    <li><strong>Zero ostentazione</strong>: Non vedrai mai uno che fa lo sbruffone per il SUV del padre. Qui la ricchezza (quando c'è) non si ostenta, si vive</li>
+                    <li><strong>Rispetto vero</strong>: I giovani tarantini hanno ancora il concetto di rispetto per gli anziani, per la famiglia, per la città. Non è boomer energy, è cultura</li>
+                    <li><strong>Comunità sana</strong>: Ti ritrovi in piazza la sera, parli, ridi, esci. Non c'è la paranoia di "essere visto nel locale giusto" o "postare la storia fighissima"</li>
+                    <li><strong>Mare come stile di vita</strong>: I ragazzi d'estate vivono in spiaggia. Non per fare foto, ma perché <strong>è normale</strong>. Tuffo dopo scuola/lavoro = routine</li>
+                </ul>
+            </div>
+
+            <p>A Milano trovi i maranza che girano in monopattino elettrico con l'outfit da 500 euro (preso a rate) per andare al Carrefour. A Taranto trovi ragazzi normali che vanno al mare in bici, mangiano pesce fresco coi nonni e la sera si vedono in piazza.</p>
+
+            <p><strong>Guess quale delle due è una vita vera?</strong> No cap, Taranto understood what "vivere bene" significa. 💯</p>
 
             <h3><span class="emoji">💡</span> La Classifica con Occhi Nuovi</h3>
 
@@ -1107,6 +1257,137 @@
             </div>
 
             <p>Ecco perché questa classifica, per quanto provocatoria, <strong>ha più senso di quelle "ufficiali"</strong> nell'era dello smart working. Misura la <strong>felicità concreta</strong>, non il PIL astratto.</p>
+
+            <h2><span class="emoji">📸</span> TARANTO VS MILANO: Il Confronto Fotografico (No Filter Needed)</h2>
+
+            <p style="font-size: 1.1em; margin-bottom: 30px;"><strong>POV:</strong> Confronti la tua vita a Taranto vs Milano. Spoiler: <em>it's not even close</em>. 📍</p>
+
+            <h3 style="color: var(--success-color);">✅ TARANTO - Main Character Energy</h3>
+
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🌅</div>
+                        <!-- Sostituisci con: <img src="taranto-tramonto.jpg" alt="Taranto tramonto"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Lungomare Taranto</div>
+                        <div class="description">Golden hour dopo il lavoro. Questo è quello che vedi uscendo dall'ufficio. <strong>Bussin'.</strong></div>
+                        <span class="vibe-tag green">✨ Main character energy</span>
+                        <span class="vibe-tag green">🌊 Beach life</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🏛️</div>
+                        <!-- Sostituisci con: <img src="marta-ori.jpg" alt="MArTA Ori"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Museo MArTA</div>
+                        <div class="description">Ori della Magna Grecia. 2.500 anni di storia che Milano neanche immagina. <strong>Ate and left no crumbs.</strong></div>
+                        <span class="vibe-tag green">🏺 History slay</span>
+                        <span class="vibe-tag green">💎 Luxury antica</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🏖️</div>
+                        <!-- Sostituisci con: <img src="taranto-mare.jpg" alt="Taranto mare"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Mar Grande</div>
+                        <div class="description">Aperitivo vista mare: €5. Vista: priceless. Work-life balance understood. 💯</div>
+                        <span class="vibe-tag green">🍹 Affordable luxury</span>
+                        <span class="vibe-tag green">☀️ No filter needed</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🏰</div>
+                        <!-- Sostituisci con: <img src="citta-vecchia.jpg" alt="Città Vecchia"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Città Vecchia</div>
+                        <div class="description">2.700 anni di storia. Ogni vicolo ha più anni della Galleria Vittorio Emanuele. <strong>Rent free nella tua testa, Milano.</strong></div>
+                        <span class="vibe-tag green">🗺️ Time travel vibes</span>
+                        <span class="vibe-tag green">📜 Ancient flex</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vs-divider">VS</div>
+
+            <h3 style="color: var(--danger-color);">❌ MILANO - It's Giving Dystopia</h3>
+
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🚇</div>
+                        <!-- Sostituisci con: <img src="metro-milano.jpg" alt="Metro Milano"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Metro Linea 2 (ore 8:30)</div>
+                        <div class="description">La tua "golden hour" quotidiana. Sardine hanno più spazio. <strong>It's giving claustrofobia.</strong></div>
+                        <span class="vibe-tag red">🚨 Red flag</span>
+                        <span class="vibe-tag red">😰 Stress max</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">☁️</div>
+                        <!-- Sostituisci con: <img src="milano-grigio.jpg" alt="Milano cielo grigio"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Milano (Ottobre-Marzo)</div>
+                        <div class="description">50 sfumature di grigio. Vitamina D? Never heard of her. <strong>Mid energy.</strong></div>
+                        <span class="vibe-tag red">🌫️ Always gloomy</span>
+                        <span class="vibe-tag red">😔 Sad vibes</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">💸</div>
+                        <!-- Sostituisci con: <img src="scontrino-milano.jpg" alt="Scontrino Milano"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Bar Zona Navigli</div>
+                        <div class="description">Spritz: €15. Patatine: €8. Scoprire che a Taranto con €23 ceni in due: <strong>Priceless (ma anche doloroso).</strong></div>
+                        <span class="vibe-tag red">💰 Broke era</span>
+                        <span class="vibe-tag red">🚩 Red flag certified</span>
+                    </div>
+                </div>
+
+                <div class="photo-card">
+                    <div class="photo-container">
+                        <div class="photo-placeholder">🚗</div>
+                        <!-- Sostituisci con: <img src="traffico-milano.jpg" alt="Traffico Milano"> -->
+                    </div>
+                    <div class="photo-caption">
+                        <div class="location">📍 Tangenziale (ogni giorno)</div>
+                        <div class="description">2 ore al giorno qui dentro. Il tuo hobby principale è starnutire per lo smog. <strong>This is not the vibe, chief.</strong></div>
+                        <span class="vibe-tag red">🚦 Time waster</span>
+                        <span class="vibe-tag red">🫁 Smog attack</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box warning" style="margin-top: 50px;">
+                <h3>📱 POV: Apri Instagram a Milano</h3>
+                <p>Vedi le stories dei tuoi amici a Taranto:</p>
+                <ul style="margin-top: 15px;">
+                    <li>☀️ Aperitivo al tramonto sul mare</li>
+                    <li>🏖️ "Quick swim after work"</li>
+                    <li>👨‍👩‍👧 Pranzo dai nonni (10 minuti da casa)</li>
+                    <li>💰 "Pagato €400 di affitto questo mese LOL"</li>
+                </ul>
+                <p style="margin-top: 20px;"><strong>Tu:</strong> Sei in metro, puzza, paghi €1.500 d'affitto, non vedi il sole da novembre.</p>
+                <p style="margin-top: 15px; font-size: 1.2em; font-weight: 700;">Plot twist: Loro lavorano per la stessa azienda milanese. Da remoto. 💀</p>
+            </div>
 
             <h2><span class="emoji">🏆</span> LA CLASSIFICA COMPLETA - Tutte le 110 Città</h2>
 
@@ -1652,6 +1933,7 @@
             <p><em>Classifica realizzata con dati ISTAT, OMI, Meteo.it e la sana irriverenza di chi il Sud lo vive, non lo racconta da Citylife.</em></p>
             <p style="margin-top: 25px; font-size: 2.5em;">🌊☀️</p>
             <p style="margin-top: 15px; font-size: 1.2em; color: var(--text-dark);"><strong>Taranto, dove si vive. Milano, dove si sopravvive.</strong></p>
+            <p style="margin-top: 30px; font-size: 1.1em; font-weight: 600; color: var(--text-dark);">Un tarantino come voi ❤️💙</p>
         </div>
     </article>
 
