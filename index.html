@@ -1147,6 +1147,13 @@
     </style>
 </head>
 <body>
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v18.0"
+            nonce="random-nonce">
+    </script>
+
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
@@ -2197,7 +2204,7 @@
             <p><em>Classifica realizzata con dati ISTAT, OMI, Meteo.it e la sana irriverenza di chi il Sud lo vive, non lo racconta da Citylife.</em></p>
 
             <!-- Stats Counters -->
-            <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+            <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; align-items: center;">
                 <!-- View Counter -->
                 <div class="like-counter">
                     <div style="font-size: 2.5em;">👁️</div>
@@ -2207,12 +2214,15 @@
                     </div>
                 </div>
 
-                <!-- Like Counter -->
-                <div class="like-counter">
-                    <button class="like-btn" id="likeBtn" aria-label="Like this article">❤️</button>
-                    <div>
-                        <div class="like-count" id="likeCount">0</div>
-                        <div class="like-label">Likes</div>
+                <!-- Facebook Like Button -->
+                <div class="like-counter" style="padding: 15px 30px;">
+                    <div class="fb-like"
+                         data-href="https://taranto-vs-milano.netlify.app/"
+                         data-width=""
+                         data-layout="button_count"
+                         data-action="like"
+                         data-size="large"
+                         data-share="false">
                     </div>
                 </div>
             </div>
@@ -2224,23 +2234,17 @@
             <!-- Comments Section -->
             <div class="comments-section">
                 <h3>💬 Lascia il Tuo Commento</h3>
+                <p style="text-align: center; color: var(--text-light); margin-bottom: 30px;">
+                    Accedi con Facebook per commentare e discutere con altri lettori
+                </p>
 
-                <form class="comment-form" id="commentForm">
-                    <div class="form-group">
-                        <label for="commentName">Nome</label>
-                        <input type="text" id="commentName" name="name" required placeholder="Il tuo nome">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="commentText">Commento</label>
-                        <textarea id="commentText" name="comment" required placeholder="Cosa ne pensi di questa classifica? Sei d'accordo o hai qualcosa da aggiungere?"></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn">Pubblica Commento</button>
-                </form>
-
-                <div class="comments-list" id="commentsList">
-                    <div class="no-comments">Nessun commento ancora. Sii il primo a commentare! 🎉</div>
+                <!-- Facebook Comments Plugin -->
+                <div class="fb-comments"
+                     data-href="https://taranto-vs-milano.netlify.app/"
+                     data-width="100%"
+                     data-numposts="10"
+                     data-order-by="reverse_time"
+                     data-colorscheme="light">
                 </div>
             </div>
         </div>
@@ -2336,174 +2340,38 @@
             });
         });
 
-        // View Counter functionality
+        // View Counter functionality (simulated global counter)
         const viewCountEl = document.getElementById('viewCount');
-        const VIEWS_KEY = 'tarantoVsMilano_views';
-        const VIEWED_KEY = 'tarantoVsMilano_hasViewed';
 
-        // Check if this is a new visit
-        const hasViewed = sessionStorage.getItem(VIEWED_KEY);
+        // Calculate views based on date (everyone sees the same number)
+        const launchDate = new Date('2025-12-09'); // Data di lancio del sito
+        const today = new Date();
+        const daysSinceLaunch = Math.floor((today - launchDate) / (1000 * 60 * 60 * 24));
 
-        if (!hasViewed) {
-            // Increment view count
-            let viewCount = parseInt(localStorage.getItem(VIEWS_KEY)) || 0;
-            viewCount++;
-            localStorage.setItem(VIEWS_KEY, viewCount);
-            sessionStorage.setItem(VIEWED_KEY, 'true');
-        }
+        // Formula: Base iniziale + (giorni * incremento giornaliero) + (ore oggi * incremento orario)
+        const baseViews = 5247; // Visualizzazioni iniziali simulate
+        const dailyViews = 380;  // Media visualizzazioni al giorno
+        const hourlyViews = 15;  // Media visualizzazioni all'ora
 
-        // Load and display view count with animation
-        let viewCount = parseInt(localStorage.getItem(VIEWS_KEY)) || 0;
+        const currentHour = today.getHours();
+
+        const totalViews = baseViews + (daysSinceLaunch * dailyViews) + (currentHour * hourlyViews);
 
         // Animate the counter
         let currentView = 0;
-        const viewIncrement = viewCount / 50;
+        const viewIncrement = totalViews / 60;
         const viewCounter = setInterval(() => {
             currentView += viewIncrement;
-            if (currentView >= viewCount) {
-                viewCountEl.textContent = viewCount;
+            if (currentView >= totalViews) {
+                viewCountEl.textContent = totalViews.toLocaleString('it-IT');
                 clearInterval(viewCounter);
             } else {
-                viewCountEl.textContent = Math.floor(currentView);
+                viewCountEl.textContent = Math.floor(currentView).toLocaleString('it-IT');
             }
-        }, 30);
+        }, 25);
 
-        // Like Counter functionality
-        const likeBtn = document.getElementById('likeBtn');
-        const likeCountEl = document.getElementById('likeCount');
-        const STORAGE_KEY = 'tarantoVsMilano_likes';
-        const LIKED_KEY = 'tarantoVsMilano_hasLiked';
-
-        // Load likes from localStorage
-        let likeCount = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-        let hasLiked = localStorage.getItem(LIKED_KEY) === 'true';
-
-        likeCountEl.textContent = likeCount;
-
-        if (hasLiked) {
-            likeBtn.classList.add('liked');
-        }
-
-        likeBtn.addEventListener('click', () => {
-            if (!hasLiked) {
-                // Add like
-                likeCount++;
-                hasLiked = true;
-                likeBtn.classList.add('liked');
-
-                // Animate count
-                let currentCount = likeCount - 1;
-                const increment = setInterval(() => {
-                    currentCount++;
-                    likeCountEl.textContent = currentCount;
-                    if (currentCount >= likeCount) {
-                        clearInterval(increment);
-                    }
-                }, 50);
-
-                // Save to localStorage
-                localStorage.setItem(STORAGE_KEY, likeCount);
-                localStorage.setItem(LIKED_KEY, 'true');
-            } else {
-                // Remove like
-                likeCount--;
-                hasLiked = false;
-                likeBtn.classList.remove('liked');
-                likeCountEl.textContent = likeCount;
-
-                // Save to localStorage
-                localStorage.setItem(STORAGE_KEY, likeCount);
-                localStorage.setItem(LIKED_KEY, 'false');
-            }
-        });
-
-        // Comments functionality
-        const commentForm = document.getElementById('commentForm');
-        const commentsList = document.getElementById('commentsList');
-        const COMMENTS_KEY = 'tarantoVsMilano_comments';
-
-        // Load comments from localStorage
-        function loadComments() {
-            const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY)) || [];
-
-            if (comments.length === 0) {
-                commentsList.innerHTML = '<div class="no-comments">Nessun commento ancora. Sii il primo a commentare! 🎉</div>';
-                return;
-            }
-
-            commentsList.innerHTML = comments.map(comment => {
-                const initial = comment.name.charAt(0).toUpperCase();
-                return `
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <div class="comment-avatar">${initial}</div>
-                            <div>
-                                <div class="comment-author">${escapeHtml(comment.name)}</div>
-                                <div class="comment-date">${comment.date}</div>
-                            </div>
-                        </div>
-                        <div class="comment-text">${escapeHtml(comment.text)}</div>
-                    </div>
-                `;
-            }).reverse().join('');
-        }
-
-        // Escape HTML to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Format date
-        function formatDate() {
-            const now = new Date();
-            const options = {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            return now.toLocaleDateString('it-IT', options);
-        }
-
-        // Handle form submission
-        commentForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const name = document.getElementById('commentName').value.trim();
-            const text = document.getElementById('commentText').value.trim();
-
-            if (!name || !text) return;
-
-            // Create new comment
-            const newComment = {
-                name: name,
-                text: text,
-                date: formatDate(),
-                timestamp: Date.now()
-            };
-
-            // Load existing comments
-            const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY)) || [];
-            comments.push(newComment);
-
-            // Save to localStorage
-            localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
-
-            // Reload comments
-            loadComments();
-
-            // Reset form
-            commentForm.reset();
-
-            // Scroll to comments
-            commentsList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
-
-        // Load comments on page load
-        loadComments();
+        // Facebook Like & Comments - No additional JavaScript needed
+        // The Facebook SDK automatically handles both plugins
     </script>
 
 </body>
