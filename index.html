@@ -638,6 +638,82 @@
             margin-bottom: 15px;
         }
 
+        /* Like Counter */
+        .like-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .like-counter:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(231, 76, 60, 0.25);
+            border-color: var(--primary-color);
+        }
+
+        .like-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 6px 25px rgba(231, 76, 60, 0.5);
+        }
+
+        .like-btn:active {
+            transform: scale(0.95);
+        }
+
+        .like-btn.liked {
+            animation: heartbeat 0.5s ease;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.25); }
+        }
+
+        .like-count {
+            font-size: 2em;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Playfair Display', serif;
+            min-width: 80px;
+        }
+
+        .like-label {
+            font-size: 0.9em;
+            color: var(--text-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .article-container {
@@ -1961,6 +2037,16 @@
         <!-- Footer -->
         <div class="article-footer">
             <p><em>Classifica realizzata con dati ISTAT, OMI, Meteo.it e la sana irriverenza di chi il Sud lo vive, non lo racconta da Citylife.</em></p>
+
+            <!-- Like Counter -->
+            <div class="like-counter">
+                <button class="like-btn" id="likeBtn" aria-label="Like this article">❤️</button>
+                <div>
+                    <div class="like-count" id="likeCount">0</div>
+                    <div class="like-label">Likes</div>
+                </div>
+            </div>
+
             <p style="margin-top: 25px; font-size: 2.5em;">🌊☀️</p>
             <p style="margin-top: 15px; font-size: 1.2em; color: var(--text-dark);"><strong>Taranto, dove si vive. Milano, dove si sopravvive.</strong></p>
             <p style="margin-top: 30px; font-size: 1.1em; font-weight: 600; color: var(--text-dark);">Un tarantino come voi ❤️💙</p>
@@ -2055,6 +2141,55 @@
                     window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank');
                 }
             });
+        });
+
+        // Like Counter functionality
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCountEl = document.getElementById('likeCount');
+        const STORAGE_KEY = 'tarantoVsMilano_likes';
+        const LIKED_KEY = 'tarantoVsMilano_hasLiked';
+
+        // Load likes from localStorage
+        let likeCount = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
+        let hasLiked = localStorage.getItem(LIKED_KEY) === 'true';
+
+        likeCountEl.textContent = likeCount;
+
+        if (hasLiked) {
+            likeBtn.classList.add('liked');
+        }
+
+        likeBtn.addEventListener('click', () => {
+            if (!hasLiked) {
+                // Add like
+                likeCount++;
+                hasLiked = true;
+                likeBtn.classList.add('liked');
+
+                // Animate count
+                let currentCount = likeCount - 1;
+                const increment = setInterval(() => {
+                    currentCount++;
+                    likeCountEl.textContent = currentCount;
+                    if (currentCount >= likeCount) {
+                        clearInterval(increment);
+                    }
+                }, 50);
+
+                // Save to localStorage
+                localStorage.setItem(STORAGE_KEY, likeCount);
+                localStorage.setItem(LIKED_KEY, 'true');
+            } else {
+                // Remove like
+                likeCount--;
+                hasLiked = false;
+                likeBtn.classList.remove('liked');
+                likeCountEl.textContent = likeCount;
+
+                // Save to localStorage
+                localStorage.setItem(STORAGE_KEY, likeCount);
+                localStorage.setItem(LIKED_KEY, 'false');
+            }
         });
     </script>
 
